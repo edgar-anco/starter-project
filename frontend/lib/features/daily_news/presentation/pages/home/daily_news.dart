@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
+import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_event.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_state.dart';
 
 import '../../../domain/entities/article.dart';
@@ -70,10 +71,9 @@ class DailyNews extends StatelessWidget {
         children: articleWidgets,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO: REPLACE ROUTE WITH YOUR "ADD ARTICLE" PAGE
-        },
-        child: const Icon(Icons.add),
+        onPressed: () => _onPublishArticleTapped(context),
+        backgroundColor: const Color(0xFFDDB8E4),
+        child: const Icon(Icons.add, color: Colors.black),
       ),
     );
   }
@@ -84,5 +84,14 @@ class DailyNews extends StatelessWidget {
 
   void _onShowSavedArticlesViewTapped(BuildContext context) {
     Navigator.pushNamed(context, '/SavedArticles');
+  }
+
+  void _onPublishArticleTapped(BuildContext context) {
+    Navigator.pushNamed(context, '/PublishArticle').then((result) {
+      if (result == true) {
+        // Refresh articles after publishing
+        context.read<RemoteArticlesBloc>().add(const GetArticles());
+      }
+    });
   }
 }
