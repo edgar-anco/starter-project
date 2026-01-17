@@ -1,14 +1,25 @@
+import 'dart:io';
+
 import 'package:news_app_clean_architecture/core/resources/data_state.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article.dart';
 
 abstract class ArticleRepository {
-  // API methods
+  // API methods - Remote articles from News API
   Future<DataState<List<ArticleEntity>>> getNewsArticles();
 
-  // Database methods
-  Future < List < ArticleEntity >> getSavedArticles();
+  // Firestore methods - User published articles
+  Future<DataState<List<ArticleEntity>>> getFirestoreArticles();
 
-  Future < void > saveArticle(ArticleEntity article);
+  Future<DataState<ArticleEntity>> publishArticle({
+    required String author,
+    required String title,
+    String? description,
+    required String content,
+    File? thumbnailFile,
+  });
 
-  Future < void > removeArticle(ArticleEntity article);
+  // Database methods - Local saved articles
+  Future<List<ArticleEntity>> getSavedArticles();
+  Future<void> saveArticle(ArticleEntity article);
+  Future<void> removeArticle(ArticleEntity article);
 }
