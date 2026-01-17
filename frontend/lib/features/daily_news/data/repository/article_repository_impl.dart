@@ -26,13 +26,13 @@ class ArticleRepositoryImpl implements ArticleRepository {
       );
 
       if (httpResponse.response.statusCode == 200) {
-        return DataSuccess(httpResponse.data.articles ?? []);
+        return DataSuccess(httpResponse.data);
       } else {
         return DataFailed(
           DioError(
             error: httpResponse.response.statusMessage,
             response: httpResponse.response,
-            type: DioErrorType.badResponse,
+            type: DioErrorType.response,
             requestOptions: httpResponse.response.requestOptions
           )
         );
@@ -50,7 +50,7 @@ class ArticleRepositoryImpl implements ArticleRepository {
     } catch (e) {
       return DataFailed(DioError(
         error: e.toString(),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         requestOptions: RequestOptions(path: 'firestore/articles'),
       ));
     }
@@ -76,7 +76,7 @@ class ArticleRepositoryImpl implements ArticleRepository {
     } catch (e) {
       return DataFailed(DioError(
         error: e.toString(),
-        type: DioErrorType.unknown,
+        type: DioErrorType.other,
         requestOptions: RequestOptions(path: 'firestore/publish'),
       ));
     }
