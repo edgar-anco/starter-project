@@ -2,6 +2,36 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // TODO: WRITE ANY NECESSARY FIRESTORE RULES HERE
+
+    // Articles collection rules
+    match /articles/{articleId} {
+      // Allow read access to all users
+      allow read: if true;
+
+      // Allow create with validation
+      allow create: if isValidArticle(request.resource.data);
+
+      // Allow update with validation
+      allow update: if isValidArticle(request.resource.data);
+
+      // Allow delete (consider restricting in production)
+      allow delete: if true;
+    }
+
+    // Validation function for articles
+    function isValidArticle(data) {
+      return data.keys().hasAll(['id', 'author', 'title', 'content', 'publishedAt', 'createdAt', 'updatedAt'])
+        && data.title is string
+        && data.title.size() > 0
+        && data.title.size() <= 100
+        && data.author is string
+        && data.author.size() > 0
+        && data.content is string
+        && data.content.size() > 0
+        && data.content.size() <= 5000
+        && data.publishedAt is timestamp
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
   }
 }
