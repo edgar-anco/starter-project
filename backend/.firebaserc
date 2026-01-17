@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": // TODO: ADD PROJECT ID
+    "default": "symmetry-starter-project-31802"
   },
   "targets": {},
   "etags": {}
