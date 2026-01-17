@@ -2,6 +2,20 @@ rules_version = '2';
 
 service firebase.storage {
   match /b/{bucket}/o {
-    //TODO: WRITE ANY NECESSARY STORAGE RULES HERE
+
+    // Articles media folder
+    match /media/articles/{articleId}/{fileName} {
+      // Allow read access to all users
+      allow read: if true;
+
+      // Allow write with validation
+      allow write: if isValidImage(request.resource);
     }
+
+    // Validate image uploads
+    function isValidImage(resource) {
+      return resource.size < 5 * 1024 * 1024  // Max 5MB
+        && resource.contentType.matches('image/.*');  // Only images
+    }
+  }
 }
