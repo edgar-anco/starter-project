@@ -61,7 +61,7 @@ Future<void> initializeDependencies() async {
 
   // Blocs
   sl.registerFactory<RemoteArticlesBloc>(
-    () => RemoteArticlesBloc(sl()),
+    () => RemoteArticlesBloc(sl<GetFirestoreArticlesUseCase>()),
   );
 
   sl.registerFactory<LocalArticleBloc>(
