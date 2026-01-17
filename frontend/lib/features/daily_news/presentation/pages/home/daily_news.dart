@@ -67,8 +67,15 @@ class DailyNews extends StatelessWidget {
 
     return Scaffold(
       appBar: _buildAppbar(context),
-      body: ListView(
-        children: articleWidgets,
+      body: RefreshIndicator(
+        color: const Color(0xFFDDB8E4),
+        onRefresh: () async {
+          context.read<RemoteArticlesBloc>().add(const GetArticles());
+          await Future.delayed(const Duration(seconds: 1));
+        },
+        child: ListView(
+          children: articleWidgets,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _onPublishArticleTapped(context),
