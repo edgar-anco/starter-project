@@ -89,7 +89,6 @@ class ArticleWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 7),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Title
@@ -105,16 +104,21 @@ class ArticleWidget extends StatelessWidget {
               ),
             ),
 
-            // Description
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  article!.description ?? '',
-                  maxLines: 2,
-                ),
+            const SizedBox(height: 4),
+
+            // Content preview
+            Text(
+              article!.content ?? '',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
               ),
             ),
+
+            const Spacer(),
 
             // Datetime
             Row(

@@ -23,7 +23,7 @@ class FirestoreService {
   Future<List<ArticleModel>> getArticles() async {
     final snapshot = await _articlesCollection
         .orderBy('publishedAt', descending: true)
-        .get();
+        .get(const GetOptions(source: Source.server));
 
     return snapshot.docs
         .map((doc) => ArticleModel.fromFirestore(doc.data()))

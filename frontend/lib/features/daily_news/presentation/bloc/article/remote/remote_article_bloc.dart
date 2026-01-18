@@ -14,6 +14,7 @@ class RemoteArticlesBloc extends Bloc<RemoteArticlesEvent,RemoteArticlesState> {
 
 
   void onGetArticles(GetArticles event, Emitter < RemoteArticlesState > emit) async {
+    emit(const RemoteArticlesLoading());
     final dataState = await _getFirestoreArticlesUseCase();
 
     if (dataState is DataSuccess && dataState.data!.isNotEmpty) {
