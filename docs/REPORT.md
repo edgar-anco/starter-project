@@ -124,27 +124,27 @@ Implemented a dedicated `PublishArticleBloc` with clear state transitions and us
 ### Screenshots
 
 #### Home Screen with FAB
-![Home Screen](images/home_screen.jpg)
+![Home Screen](images/home_screen.jpeg)
 *The home screen displays articles from Firestore with a floating action button to publish new articles.*
 
 #### Publish Article Form
-![Publish Form](images/publish_form.jpg)
+![Publish Form](images/publish_form.jpeg)
 *The publish article form with author name, title, image attachment, and content fields.*
 
 #### Image Selection
-![Image Selection](images/image_selection.jpg)
+![Image Selection](images/image_selection.jpeg)
 *Users can attach images from their gallery as article thumbnails.*
 
 #### Publishing State
-![Publishing](images/publishing_state.jpg)
+![Publishing](images/publishing_state.jpeg)
 *Loading overlay shown while the article is being published to Firestore.*
 
 #### Success Dialog
-![Success](images/success_dialog.jpg)
+![Success](images/success_dialog.jpeg)
 *Confirmation dialog displayed after successful article publication.*
 
 #### Article in Feed
-![Article Feed](images/article_in_feed.jpg)
+![Article Feed](images/article_in_feed.jpeg)
 *Published article appearing in the home feed with other articles.*
 
 ### Video Demo
@@ -174,13 +174,13 @@ Implemented a complete dark mode system with:
 
 **Purpose:** Improves user experience by providing a comfortable viewing option in low-light environments and respecting user preferences.
 
-![Dark Mode Toggle](images/dark_mode_toggle.jpg)
+![Dark Mode Toggle](images/dark_mode_toggle.jpeg)
 *Toggle button in the app bar allows users to switch between light and dark themes.*
 
-![Dark Mode Home](images/dark_mode_home.jpg)
+![Dark Mode Home](images/dark_mode_home.jpeg)
 *Home screen displayed in dark mode.*
 
-![Dark Mode Publish](images/dark_mode_publish.jpg)
+![Dark Mode Publish](images/dark_mode_publish.jpeg)
 *Publish article page in dark mode.*
 
 ---
@@ -213,16 +213,16 @@ Implemented an AI-powered article generation feature using Google's Gemini API:
 
 **Purpose:** Helps users overcome writer's block by generating article suggestions based on their ideas, making content creation faster and more accessible.
 
-![AI Button](images/ai_suggestion_button.jpg)
+![AI Button](images/ai_suggestion_button.jpeg)
 *"Write with AI" button displayed in the publish article form.*
 
-![AI Dialog](images/ai_suggestion_dialog.jpg)
+![AI Dialog](images/ai_suggestion_dialog.jpeg)
 *Dialog for entering article draft/idea with character counter.*
 
-![AI Loading](images/ai_suggestion_loading.jpg)
+![AI Loading](images/ai_suggestion_loading.jpeg)
 *Loading state while Gemini generates suggestions.*
 
-![AI Result](images/ai_suggestion_result.jpg)
+![AI Result](images/ai_suggestion_result.jpeg)
 *Form fields automatically filled with AI-generated title and content.*
 
 ---
