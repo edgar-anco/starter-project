@@ -74,7 +74,7 @@ void main() {
     title: 'Test Title',
     description: 'Test Description',
     content: 'Test Content',
-    publishedAt: '2024-03-24T12:00:00Z',
+    publishedAt: '2026-01-16T12:00:00Z',
   );
 
   group('PublishArticleUseCase', () {
