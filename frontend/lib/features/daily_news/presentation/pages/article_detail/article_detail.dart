@@ -39,6 +39,7 @@ class ArticleDetailsView extends HookWidget {
   Widget _buildBody() {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildArticleTitleAndDate(),
           _buildArticleImage(),
@@ -64,9 +65,17 @@ class ArticleDetailsView extends HookWidget {
           ),
 
           const SizedBox(height: 14),
-          // DateTime
+
+          // Author and DateTime
           Row(
             children: [
+              const Icon(Ionicons.person_outline, size: 16),
+              const SizedBox(width: 4),
+              Text(
+                article!.author ?? 'Unknown',
+                style: const TextStyle(fontSize: 12),
+              ),
+              const SizedBox(width: 16),
               const Icon(Ionicons.time_outline, size: 16),
               const SizedBox(width: 4),
               Text(
@@ -90,10 +99,18 @@ class ArticleDetailsView extends HookWidget {
   }
 
   Widget _buildArticleDescription() {
+    final description = article!.description ?? '';
+    final content = article!.content ?? '';
+    final text = description.isNotEmpty && content.isNotEmpty
+        ? '$description\n\n$content'
+        : content.isNotEmpty
+            ? content
+            : description;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 18),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       child: Text(
-        '${article!.description ?? ''}\n\n${article!.content ?? ''}',
+        text,
         style: const TextStyle(fontSize: 16),
       ),
     );
