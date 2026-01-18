@@ -29,7 +29,7 @@ class ArticleWidget extends StatelessWidget {
         child: Row(
           children: [
             _buildImage(context),
-            _buildTitleAndDescription(),
+            _buildTitleAndDescription(context),
             _buildRemovableArea(),
           ],
         ),
@@ -84,7 +84,7 @@ class ArticleWidget extends StatelessWidget {
             ));
   }
 
-  Widget _buildTitleAndDescription() {
+  Widget _buildTitleAndDescription(BuildContext context) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 7),
@@ -96,11 +96,11 @@ class ArticleWidget extends StatelessWidget {
               article!.title ?? '',
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontFamily: 'Butler',
                 fontWeight: FontWeight.w900,
                 fontSize: 18,
-                color: Colors.black87,
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.87),
               ),
             ),
 
@@ -111,8 +111,8 @@ class ArticleWidget extends StatelessWidget {
               article!.content ?? '',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.grey,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
               ),
@@ -123,12 +123,17 @@ class ArticleWidget extends StatelessWidget {
             // Datetime
             Row(
               children: [
-                const Icon(Icons.timeline_outlined, size: 16),
+                Icon(
+                  Icons.timeline_outlined,
+                  size: 16,
+                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                ),
                 const SizedBox(width: 4),
                 Text(
                   article!.publishedAt!,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
+                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                   ),
                 ),
               ],

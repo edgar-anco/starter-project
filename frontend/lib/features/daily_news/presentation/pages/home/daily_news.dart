@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_event.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_state.dart';
+import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/theme/theme_cubit.dart';
+import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/theme/theme_state.dart';
 
 import '../../../domain/entities/article.dart';
 import '../../widgets/article_tile.dart';
@@ -17,17 +19,29 @@ class DailyNews extends StatelessWidget {
   }
 
   _buildAppbar(BuildContext context) {
+    final isDarkMode = context.watch<ThemeCubit>().state.isDarkMode;
+
     return AppBar(
-      title: const Text(
+      leading: IconButton(
+        onPressed: () => context.read<ThemeCubit>().toggleTheme(),
+        icon: Icon(
+          isDarkMode ? Icons.light_mode : Icons.dark_mode,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
+      ),
+      title: Text(
         'Daily News',
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
       ),
       actions: [
         GestureDetector(
           onTap: () => _onShowSavedArticlesViewTapped(context),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14),
-            child: Icon(Icons.bookmark, color: Colors.black),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: Icon(
+              Icons.bookmark,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
         ),
       ],
@@ -80,7 +94,7 @@ class DailyNews extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => _onPublishArticleTapped(context),
         backgroundColor: const Color(0xFFDDB8E4),
-        child: const Icon(Icons.add, color: Colors.black),
+        child: Icon(Icons.add, color: Theme.of(context).colorScheme.onSurface),
       ),
     );
   }

@@ -30,10 +30,18 @@ class SavedArticles extends HookWidget {
         builder: (context) => GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () => _onBackButtonTapped(context),
-          child: const Icon(Ionicons.chevron_back, color: Colors.black),
+          child: Icon(
+            Ionicons.chevron_back,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
       ),
-      title: const Text('Saved Articles', style: TextStyle(color: Colors.black)),
+      title: Builder(
+        builder: (context) => Text(
+          'Saved Articles',
+          style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+        ),
+      ),
     );
   }
 
@@ -52,11 +60,14 @@ class SavedArticles extends HookWidget {
 
   Widget _buildArticlesList(List<ArticleEntity> articles) {
     if (articles.isEmpty) {
-      return const Center(
+      return Builder(
+        builder: (context) => Center(
           child: Text(
-        'NO SAVED ARTICLES',
-        style: TextStyle(color: Colors.black),
-      ));
+            'NO SAVED ARTICLES',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          ),
+        ),
+      );
     }
 
     return ListView.builder(

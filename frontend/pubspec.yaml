@@ -53,6 +53,9 @@ dependencies:
   #unique IDs generation
   uuid: ^4.2.2
 
+  #local storage
+  shared_preferences: ^2.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
