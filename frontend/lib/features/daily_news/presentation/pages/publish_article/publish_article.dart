@@ -24,8 +24,11 @@ class _PublishArticlePageState extends State<PublishArticlePage> {
 
   File? _selectedImage;
 
+  static const int maxAuthorLength = 50;
   static const int maxTitleLength = 100;
   static const int maxContentLength = 5000;
+
+  bool _showImageError = false;
 
   @override
   void dispose() {
@@ -46,6 +49,7 @@ class _PublishArticlePageState extends State<PublishArticlePage> {
     if (image != null) {
       setState(() {
         _selectedImage = File(image.path);
+        _showImageError = false;
       });
     }
   }
@@ -57,7 +61,14 @@ class _PublishArticlePageState extends State<PublishArticlePage> {
   }
 
   void _publishArticle(BuildContext context) {
-    if (_formKey.currentState!.validate()) {
+    final isFormValid = _formKey.currentState!.validate();
+    final hasImage = _selectedImage != null;
+
+    setState(() {
+      _showImageError = !hasImage;
+    });
+
+    if (isFormValid && hasImage) {
       context.read<PublishArticleBloc>().add(
             PublishArticle(
               author: _authorController.text.trim(),
@@ -147,9 +158,15 @@ class _PublishArticlePageState extends State<PublishArticlePage> {
   Widget _buildAuthorField() {
     return TextFormField(
       controller: _authorController,
+      maxLength: maxAuthorLength,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         hintText: 'Your name...',
         border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
+        enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: Colors.grey),
         ),
@@ -172,9 +189,14 @@ class _PublishArticlePageState extends State<PublishArticlePage> {
       controller: _titleController,
       maxLength: maxTitleLength,
       maxLines: 3,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         hintText: 'Write your title here...',
         border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
+        enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: Colors.grey),
         ),
@@ -246,20 +268,47 @@ class _PublishArticlePageState extends State<PublishArticlePage> {
       );
     }
 
-    return Center(
-      child: ElevatedButton.icon(
-        onPressed: _pickImage,
-        icon: const Icon(Icons.camera_alt_outlined),
-        label: const Text('Attach Image'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFDDB8E4),
-          foregroundColor: Colors.black,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+    final errorColor = Theme.of(context).colorScheme.error;
+
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 24),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: _showImageError ? errorColor : Colors.grey,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Center(
+            child: ElevatedButton.icon(
+              onPressed: _pickImage,
+              icon: const Icon(Icons.camera_alt_outlined),
+              label: const Text('Attach Image'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFDDB8E4),
+                foregroundColor: Colors.black,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+              ),
+            ),
           ),
         ),
-      ),
+        if (_showImageError)
+          Padding(
+            padding: const EdgeInsets.only(top: 8, left: 12),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Please attach an image',
+                style: TextStyle(color: errorColor, fontSize: 12),
+              ),
+            ),
+          ),
+      ],
     );
   }
 
@@ -268,10 +317,15 @@ class _PublishArticlePageState extends State<PublishArticlePage> {
       controller: _contentController,
       maxLength: maxContentLength,
       maxLines: 12,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        hintText: 'Add article here, .....',
+        hintText: 'Add article here...',
         alignLabelWithHint: true,
         border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
+        enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: Colors.grey),
         ),
