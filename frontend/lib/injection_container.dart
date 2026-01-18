@@ -2,12 +2,17 @@ import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/data_sources/remote/firestore_service.dart';
+import 'package:news_app_clean_architecture/features/daily_news/data/data_sources/remote/gemini_service.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/data_sources/remote/news_api_service.dart';
+import 'package:news_app_clean_architecture/features/daily_news/data/repository/ai_repository_impl.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/repository/article_repository_impl.dart';
+import 'package:news_app_clean_architecture/features/daily_news/domain/repository/ai_repository.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/repository/article_repository.dart';
+import 'package:news_app_clean_architecture/features/daily_news/domain/usecases/generate_article_suggestions.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/usecases/get_article.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/usecases/get_firestore_articles.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/usecases/publish_article.dart';
+import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/ai_suggestion/ai_suggestion_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/publish/publish_article_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/theme/theme_cubit.dart';
@@ -34,10 +39,15 @@ Future<void> initializeDependencies() async {
   // Data Sources
   sl.registerSingleton<NewsApiService>(NewsApiService(sl()));
   sl.registerSingleton<FirestoreService>(FirestoreService());
+  sl.registerSingleton<GeminiService>(GeminiService());
 
   // Repository
   sl.registerSingleton<ArticleRepository>(
     ArticleRepositoryImpl(sl(), sl(), sl()),
+  );
+
+  sl.registerSingleton<AiRepository>(
+    AiRepositoryImpl(sl()),
   );
 
   // Use Cases
@@ -65,6 +75,10 @@ Future<void> initializeDependencies() async {
     RemoveArticleUseCase(sl()),
   );
 
+  sl.registerSingleton<GenerateArticleSuggestionsUseCase>(
+    GenerateArticleSuggestionsUseCase(sl()),
+  );
+
   // Blocs
   sl.registerFactory<RemoteArticlesBloc>(
     () => RemoteArticlesBloc(sl<GetFirestoreArticlesUseCase>()),
@@ -76,6 +90,10 @@ Future<void> initializeDependencies() async {
 
   sl.registerFactory<PublishArticleBloc>(
     () => PublishArticleBloc(sl()),
+  );
+
+  sl.registerFactory<AiSuggestionBloc>(
+    () => AiSuggestionBloc(sl()),
   );
 
   // Theme Cubit

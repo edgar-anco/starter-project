@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/publish/publish_article_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/publish/publish_article_event.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/publish/publish_article_state.dart';
+import 'package:news_app_clean_architecture/features/daily_news/presentation/widgets/ai_suggestion_dialog.dart';
 import 'package:news_app_clean_architecture/injection_container.dart';
 
 class PublishArticlePage extends StatefulWidget {
@@ -58,6 +59,22 @@ class _PublishArticlePageState extends State<PublishArticlePage> {
     setState(() {
       _selectedImage = null;
     });
+  }
+
+  void _showAiSuggestionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AiSuggestionDialog(
+          onSuggestionReceived: (suggestion) {
+            setState(() {
+              _titleController.text = suggestion.title;
+              _contentController.text = suggestion.content;
+            });
+          },
+        );
+      },
+    );
   }
 
   void _publishArticle(BuildContext context) {
@@ -147,12 +164,33 @@ class _PublishArticlePageState extends State<PublishArticlePage> {
           children: [
             _buildAuthorField(),
             const SizedBox(height: 16),
+            _buildAiSuggestionButton(context),
+            const SizedBox(height: 16),
             _buildTitleField(),
             const SizedBox(height: 16),
             _buildImageSection(),
             const SizedBox(height: 16),
             _buildContentField(),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAiSuggestionButton(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: () => _showAiSuggestionDialog(context),
+        icon: const Icon(Icons.auto_awesome),
+        label: const Text('Write with AI'),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: const Color(0xFFDDB8E4),
+          side: const BorderSide(color: Color(0xFFDDB8E4)),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
         ),
       ),
     );

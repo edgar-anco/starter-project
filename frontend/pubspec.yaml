@@ -56,6 +56,12 @@ dependencies:
   #local storage
   shared_preferences: ^2.2.2
 
+  #environment variables
+  flutter_dotenv: ^5.1.0
+
+  #http client
+  http: ^1.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -68,6 +74,9 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  assets:
+    - .env
 
  
   fonts:
